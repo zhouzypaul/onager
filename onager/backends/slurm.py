@@ -37,17 +37,17 @@ class SlurmBackend(Backend):
         # Duration
         base_cmd += '-t {} '.format(args.duration)
         duration = self.get_time_delta(args.duration)
+        
+        # account, partition, qos
+        base_cmd += '--account={} '.format(args.account)
+        base_cmd += '--partition={} '.format(args.partition)
+        base_cmd += '--qos={} '.format(args.qos)
 
         # Number of CPU/GPU resources
-        base_cmd += '-n {} '.format(args.cpus)
-        if args.debug and duration > timedelta(hours=2):
-            raise RuntimeError('{}: Duration cannot exceed 2 hours while in debug/test mode.'.format(self.name))
+        base_cmd += '--ntasks {} '.format(1)  # tasks here correspond to jobs
+        base_cmd += '--cpus-per-task {} '.format(args.cpus)
         if args.gpus > 0:
-            partition = 'gpu-debug' if args.debug else 'gpu'
-            base_cmd += '-p {} --gres=gpu:{} --gres-flags=enforce-binding'.format(partition, args.gpus)
-        else:
-            partition = 'debug' if args.debug else 'batch'
-            base_cmd += '-p {} '.format(partition)
+            base_cmd += '--gres=gpu:A5000:{} '.format(args.gpus)
 
         # Memory requirements
         base_cmd += '--mem={}G '.format(args.mem)

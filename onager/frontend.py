@@ -50,7 +50,7 @@ def parse_args(args=None):
         help='Launch a single command instead of using a jobfile')
     launch_parser.add_argument('--jobfile', type=str, default=constants.defaultjobfile,
         help='Path to json file containing dictionary mapping run_ids to commands')
-    launch_parser.add_argument('--cpus', type=int, default=1,
+    launch_parser.add_argument('--cpus', type=int, default=4,
         help='Number of CPUs to request')
     launch_parser.add_argument('--gpus', type=int, default=1,
         help='Number of GPUs to request')
@@ -60,6 +60,12 @@ def parse_args(args=None):
         help='Path to python virtualenv')
     launch_parser.add_argument('--duration', type=str, default='0-01:00:00',
         help='Duration of job (d-hh:mm:ss)')
+    launch_parser.add_argument('--account', type=str, default='co_rail',
+        help='Account to charge job to')
+    launch_parser.add_argument('--partition', type=str, default='savio4_gpu',
+        help='Partition to run job on')
+    launch_parser.add_argument('--qos', type=str, default='rail_gpu4_normal',
+        help='Quality of service')
     launch_parser.add_argument('--tasklist', type=str, default=None,
         help='Comma separated list of task ID ranges to submit (e.g. "18-22:1,26,29,34-49:3,51")')
     launch_parser.add_argument('--max-tasks', type=int, default=-1,
