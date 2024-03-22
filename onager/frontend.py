@@ -42,7 +42,7 @@ def parse_args(args=None):
 
 
     launch_parser = subparsers.add_parser('launch', help='Launch jobs using the specified backend')
-    launch_parser.add_argument('--backend', choices=backends.__all__, required=True,
+    launch_parser.add_argument('--backend', choices=backends.__all__, default='slurm',
         help='The backend to use for launching jobs')
     launch_parser.add_argument('--jobname', type=str, required=True,
         help='A name for the job')
@@ -52,9 +52,9 @@ def parse_args(args=None):
         help='Path to json file containing dictionary mapping run_ids to commands')
     launch_parser.add_argument('--cpus', type=int, default=1,
         help='Number of CPUs to request')
-    launch_parser.add_argument('--gpus', type=int, default=0,
+    launch_parser.add_argument('--gpus', type=int, default=1,
         help='Number of GPUs to request')
-    launch_parser.add_argument('--mem', type=int, default=2,
+    launch_parser.add_argument('--mem', type=int, default=10,
         help='Amount of RAM (in GB) to request per node')
     launch_parser.add_argument('--venv', type=str, default=None,
         help='Path to python virtualenv')

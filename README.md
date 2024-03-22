@@ -4,6 +4,8 @@ Lightweight python library for launching experiments and tuning hyperparameters,
 
 By Cameron Allen & Neev Parikh
 
+(My fork is optimized to run on the Berkeley BRC cluster)
+
 -----
 
 ## Installation
