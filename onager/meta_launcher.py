@@ -88,22 +88,23 @@ def meta_launch(args):
                 cmd_suffix_list = [suffix for v in value_list for suffix in cmd_suffix_list]
                 
     # Unique arguments
-    for unique_var in unique_variables:
-        n_unique_values = len(unique_var[1])
-        if n_unique_values > 0:
-            if len(cmd_prefix_list) % n_unique_values != 0:
-                warn("Number of unique variables must to able to be sequentially assigned to the other commands")
+    if len(unique_variables) > 0:
+        for unique_var in unique_variables:
+            n_unique_values = len(unique_var[1])
+            if n_unique_values > 0:
+                if len(cmd_prefix_list) % n_unique_values != 0:
+                    warn("Number of unique variables must to able to be sequentially assigned to the other commands")
+                
+        for i, cmd_prefix in enumerate(cmd_prefix_list):
+            unique_arg = unique_variables[i % len(unique_variables)]
+            k = unique_arg[0]
+            v = unique_arg[1][i % len(unique_arg[1])]
             
-    for i, cmd_prefix in enumerate(cmd_prefix_list):
-        unique_arg = unique_variables[i % len(unique_variables)]
-        k = unique_arg[0]
-        v = unique_arg[1][i % len(unique_arg[1])]
-        
-        cmd_prefix_list[i] = cmd_prefix + ' ' + k
-        if len(v) > 0:
-            cmd_prefix_list[i] = cmd_prefix_list[i] + VAR_SEP + f"{v}"
+            cmd_prefix_list[i] = cmd_prefix + ' ' + k
+            if len(v) > 0:
+                cmd_prefix_list[i] = cmd_prefix_list[i] + VAR_SEP + f"{v}"
 
-        # TODO: this doesn't handle tag
+            # TODO: this doesn't handle tag
 
     # Flag/Boolean arguments
     for flag in flag_variables:
