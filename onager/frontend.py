@@ -26,6 +26,9 @@ def parse_args(args=None):
     prelaunch_parser.add_argument('+pos-arg', type=str, action='append', nargs='+',
         metavar=('value', 'value'),
         help='Add a positional argument with one or more mutually exclusive values')
+    prelaunch_parser.add_argument('+unique_arg', type=str, action='append', nargs='+',
+        metavar=('--argname', 'value'),
+        help='Add an unique argument with zero or more mutually exclusive values. These are not permuted, but sequentially applied')
     prelaunch_parser.add_argument('+flag', type=str, action='append', metavar=('--flag'),
         help='Add a boolean argument that will be toggled in the resulting commands')
     prelaunch_parser.add_argument('+tag', type=str, nargs='?', const='--tag',

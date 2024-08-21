@@ -4,8 +4,8 @@ Lightweight python library for launching experiments and tuning hyperparameters,
 
 By Cameron Allen & Neev Parikh
 
-(My fork is optimized to run on the Berkeley BRC cluster)
-
+Edit 1: My fork is optimized to run on the Berkeley BRC cluster
+Edit 2: Added `+unique_arg` option to `prelaunch` to allow for unique arguments to be passed to each command (this doesn't work with +tag yet)
 -----
 
 ## Installation
@@ -19,7 +19,7 @@ pip install onager
 
 Development version:
 ```
-pip install git+https://github.com/camall3n/onager.git
+pip install git+https://github.com/zhouzypaul/onager.git
 ```
 
 -----
@@ -64,6 +64,25 @@ Argument types:
 ```
 
 - Add a positional argument with one or more mutually exclusive values
+
+```
++unique_arg --argname [value ...]
+
+example:
+onager prelaunch +jobname test +command "python" +arg --alpha 0 1 2 +arg --beta 3 4 5 +unique_arg --seed {0..4}
+
+python --alpha 0 --beta 3 --seed 0
+python --alpha 1 --beta 3 --seed 1
+python --alpha 2 --beta 3 --seed 2
+python --alpha 0 --beta 4 --seed 3
+python --alpha 1 --beta 4 --seed 4
+python --alpha 2 --beta 4 --seed 0
+python --alpha 0 --beta 5 --seed 1
+python --alpha 1 --beta 5 --seed 2
+python --alpha 2 --beta 5 --seed 3
+```
+- Add an argument that is not permuted with other args, but sequentially unique to all the other permuted commands, i.e.
+
 
 ```
 +flag --flagname

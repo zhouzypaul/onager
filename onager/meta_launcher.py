@@ -25,6 +25,11 @@ def meta_launch(args):
         pos_variables = args.pos_arg
     else:
         pos_variables = []
+    
+    if args.unique_arg is not None:
+        unique_variables = [(arglist[0], arglist[1:]) for arglist in args.unique_arg]
+    else:
+        unique_variables = []
 
     if args.flag is not None:
         flag_variables = args.flag
@@ -81,6 +86,23 @@ def meta_launch(args):
                     ]
             else:
                 cmd_suffix_list = [suffix for v in value_list for suffix in cmd_suffix_list]
+                
+    # Unique arguments
+    for unique_var in unique_variables:
+        n_unique_values = len(unique_var[1])
+        if len(cmd_prefix_list) % n_unique_values != 0:
+            warn("Number of unique variables must to able to be sequentially assigned to the other commands")
+            
+    for i, cmd_prefix in enumerate(cmd_prefix_list):
+        unique_arg = unique_variables[i % len(unique_variables)]
+        k = unique_arg[0]
+        v = unique_arg[1][i % len(unique_arg[1])]
+        
+        cmd_prefix_list[i] = cmd_prefix + ' ' + k
+        if len(v) > 0:
+            cmd_prefix_list[i] = cmd_prefix_list[i] + VAR_SEP + f"{v}"
+
+        # TODO: this doesn't handle tag
 
     # Flag/Boolean arguments
     for flag in flag_variables:
@@ -126,9 +148,9 @@ def meta_launch(args):
             for (prefix, suffix) in zip(cmd_prefix_list, tag_list)
         ]
     else:
-        tag_list = [""]*len(cmd_prefix_list)
+        tag_list = [""] * len(cmd_prefix_list)
 
-    for i, (cmd,tag) in enumerate(zip(cmd_prefix_list,tag_list), start_jobid):
+    for i, (cmd, tag) in enumerate(zip(cmd_prefix_list, tag_list), start_jobid):
         if not args.quiet:
             print(cmd)
         jobs[i] = (cmd,tag)
