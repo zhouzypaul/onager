@@ -90,8 +90,9 @@ def meta_launch(args):
     # Unique arguments
     for unique_var in unique_variables:
         n_unique_values = len(unique_var[1])
-        if len(cmd_prefix_list) % n_unique_values != 0:
-            warn("Number of unique variables must to able to be sequentially assigned to the other commands")
+        if n_unique_values > 0:
+            if len(cmd_prefix_list) % n_unique_values != 0:
+                warn("Number of unique variables must to able to be sequentially assigned to the other commands")
             
     for i, cmd_prefix in enumerate(cmd_prefix_list):
         unique_arg = unique_variables[i % len(unique_variables)]
