@@ -5,7 +5,9 @@ Lightweight python library for launching experiments and tuning hyperparameters,
 By Cameron Allen & Neev Parikh
 
 Edit 1: My fork is optimized to run on the Berkeley BRC cluster
+
 Edit 2: Added `+unique_arg` option to `prelaunch` to allow for unique arguments to be passed to each command (this doesn't work with +tag yet)
+
 -----
 
 ## Installation
@@ -81,7 +83,7 @@ python --alpha 0 --beta 5 --seed 1
 python --alpha 1 --beta 5 --seed 2
 python --alpha 2 --beta 5 --seed 3
 ```
-- Add an argument that is not permuted with other args, but sequentially unique to all the other permuted commands, i.e.
+- Add an argument that is not permuted with other args, but sequentially unique to all the other permuted commands. Note that this does not work with +tag yet.
 
 
 ```
